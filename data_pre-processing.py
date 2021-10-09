@@ -1,5 +1,6 @@
 from typing import Text, Tuple
 from nltk import stem
+import nltk
 from nltk.tokenize import (
                         word_tokenize,
                         sent_tokenize,
@@ -37,10 +38,17 @@ def customTokenizer(training_data:Text, sample_data:Text) -> list:
     custon_sent_tokenizer = PunktSentenceTokenizer(training_data)
     return custon_sent_tokenizer.tokenize(sample_data)
 
+def tagWords(sentences:list) -> list:
+    """This function tags the each word to its part of speech like Ramish is Noun and Coding is verb"""
+    tagged = []
+    for sentence in sentences :
+        words = nltk.word_tokenize(sentence)
+        tagged.append(nltk.pos_tag(words))
+    
+    return tagged
 
 
-# print(tokenizing(input_sentence))
-# print(stopWords(input_sentence))
-# print(stemming(input_sentence))
-print(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt')))
-
+print(tokenizing(input_sentence))
+print(stopWords(input_sentence))
+print(stemming(input_sentence))
+print(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
