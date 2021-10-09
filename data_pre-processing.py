@@ -2,13 +2,17 @@ from typing import Text, Tuple
 from nltk import stem
 from nltk.tokenize import (
                         word_tokenize,
-                        sent_tokenize
+                        sent_tokenize,
+                        PunktSentenceTokenizer
                     )
-from nltk.corpus import stopwords
+from nltk.corpus import (
+                        stopwords,
+                        state_union
+                    )
 from nltk.stem import PorterStemmer
 
-import nltk
-# nltk.download('popular')
+# import nltk
+# nltk.download('all')
 
 
 input_sentence = "Hello, I am Ramish. You can call me python maniac or pythonic or pythoner or the learner. I love to work with AI, Cybersecuirty, REST and cloud"
@@ -28,9 +32,15 @@ def stemming(input_sentence:str) -> list:
     ps = PorterStemmer()
     return [ps.stem(w) for w in word_tokenize(input_sentence)]
 
+def customTokenizer(training_data:Text, sample_data:Text) -> list:
+    """Used to train the tokenizer and build custom model as per our data"""
+    custon_sent_tokenizer = PunktSentenceTokenizer(training_data)
+    return custon_sent_tokenizer.tokenize(sample_data)
 
 
-print(tokenizing(input_sentence))
-print(stopWords(input_sentence))
-print(stemming(input_sentence))
+
+# print(tokenizing(input_sentence))
+# print(stopWords(input_sentence))
+# print(stemming(input_sentence))
+print(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt')))
 
