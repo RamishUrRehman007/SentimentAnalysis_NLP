@@ -47,7 +47,7 @@ def tagWords(sentences:list) -> List[List[tuple]]:
     
     return tagged
 
-def chunking(tagged_words:list, regex:str) -> None:
+def chunking(tagged_words:List[List[tuple]], regex:str) -> None:
     """Use to group the tagged words on specific parts of speech"""
     chunkGram = regex
     chunkParser = nltk.RegexpParser(chunkGram)
