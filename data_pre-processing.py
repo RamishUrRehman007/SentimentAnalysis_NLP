@@ -1,4 +1,4 @@
-from typing import Text, Tuple
+from typing import List, Text, Tuple
 from nltk import stem
 import nltk
 from nltk.tokenize import (
@@ -38,7 +38,7 @@ def customTokenizer(training_data:Text, sample_data:Text) -> list:
     custon_sent_tokenizer = PunktSentenceTokenizer(training_data)
     return custon_sent_tokenizer.tokenize(sample_data)
 
-def tagWords(sentences:list) -> list:
+def tagWords(sentences:list) -> List[List[tuple]]:
     """This function tags the each word to its part of speech like Ramish is Noun and Coding is verb"""
     tagged = []
     for sentence in sentences :
@@ -47,8 +47,21 @@ def tagWords(sentences:list) -> list:
     
     return tagged
 
+def chunking(tagged_words:list, regex:str) -> List[List[tuple]]:
+    """Use to group the tagged words on specific parts of speech"""
+    chunkGram = regex
+    chunkParser = nltk.RegexpParser(chunkGram)
 
-print(tokenizing(input_sentence))
-print(stopWords(input_sentence))
-print(stemming(input_sentence))
-print(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
+    for tagged_word in tagged_words: 
+        chunked = chunkParser.parse(tagged_word)
+        chunked.draw()
+
+
+
+# print(tokenizing(input_sentence))
+# print(stopWords(input_sentence))
+# print(stemming(input_sentence))
+# print(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
+
+regex = r"""Chunk: {<NNP.?>*<NN.?>*<VB.?>*}"""
+chunking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex)
