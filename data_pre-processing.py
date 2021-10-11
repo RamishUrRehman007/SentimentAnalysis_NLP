@@ -56,6 +56,11 @@ def chunking_or_chinking(tagged_words:List[List[tuple]], regex:str) -> None:
         chunked = chunkParser.parse(tagged_word)
         chunked.draw()
 
+def entityRecognition(tagged_words:List[List[tuple]], binary=False) -> None:
+    """Identify the entity of the word and chunks on that bases like America is Location"""
+    for tagged_word in tagged_words:
+        namedEntity = nltk.ne_chunk(tagged_word, binary=binary)
+        namedEntity.draw()
 
 
 # print(tokenizing(input_sentence))
@@ -63,7 +68,9 @@ def chunking_or_chinking(tagged_words:List[List[tuple]], regex:str) -> None:
 # print(stemming(input_sentence))
 # print(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
 
-regex_chunk = r"""Chunk: {<NNP.?>*<NN.?>*<VB.?>*}"""
-regex_chink = r"""Chunk: {<.*>+} 
-                            }<VB.?|IN|DT>+{"""
-chunking_or_chinking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex_chink)
+# regex_chunk = r"""Chunk: {<NNP.?>*<NN.?>*<VB.?>*}"""
+# regex_chink = r"""Chunk: {<.*>+} 
+#                             }<VB.?|IN|DT>+{"""
+# chunking_or_chinking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex_chink)
+
+entityRecognition(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
