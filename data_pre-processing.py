@@ -10,7 +10,10 @@ from nltk.corpus import (
                         stopwords,
                         state_union
                     )
-from nltk.stem import PorterStemmer
+from nltk.stem import (
+                        PorterStemmer,
+                        WordNetLemmatizer
+                    )
 
 # import nltk
 # nltk.download('all')
@@ -62,6 +65,11 @@ def entityRecognition(tagged_words:List[List[tuple]], binary=False) -> None:
         namedEntity = nltk.ne_chunk(tagged_word, binary=binary)
         namedEntity.draw()
 
+def lemmatizing(word:str, pos='n') -> str:
+    """Its almost the same as Stemming but more powerful as we can get the root of word on the basis of POS"""
+    lemmatizer = WordNetLemmatizer()
+    return lemmatizer.lemmatize(word, pos=pos)
+
 
 # print(tokenizing(input_sentence))
 # print(stopWords(input_sentence))
@@ -72,5 +80,6 @@ def entityRecognition(tagged_words:List[List[tuple]], binary=False) -> None:
 # regex_chink = r"""Chunk: {<.*>+} 
 #                             }<VB.?|IN|DT>+{"""
 # chunking_or_chinking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex_chink)
+# entityRecognition(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
 
-entityRecognition(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
+print(lemmatizing('cats'))
