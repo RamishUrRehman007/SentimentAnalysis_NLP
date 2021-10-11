@@ -47,8 +47,8 @@ def tagWords(sentences:list) -> List[List[tuple]]:
     
     return tagged
 
-def chunking(tagged_words:List[List[tuple]], regex:str) -> None:
-    """Use to group the tagged words on specific parts of speech"""
+def chunking_or_chinking(tagged_words:List[List[tuple]], regex:str) -> None:
+    """Either sse to group the tagged words on specific parts of speech or remove the words from chunks"""
     chunkGram = regex
     chunkParser = nltk.RegexpParser(chunkGram)
 
@@ -63,5 +63,7 @@ def chunking(tagged_words:List[List[tuple]], regex:str) -> None:
 # print(stemming(input_sentence))
 # print(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))))
 
-regex = r"""Chunk: {<NNP.?>*<NN.?>*<VB.?>*}"""
-chunking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex)
+regex_chunk = r"""Chunk: {<NNP.?>*<NN.?>*<VB.?>*}"""
+regex_chink = r"""Chunk: {<.*>+} 
+                            }<VB.?|IN|DT>+{"""
+chunking_or_chinking(tagWords(customTokenizer(state_union.raw('2005-GWBush.txt'), state_union.raw('2006-GWBush.txt'))), regex_chink)
